@@ -1,0 +1,19 @@
+# Eclipse
+.metadata/
+*.tmp
+*.bak
+
+# Maven
+target/
+*.class
+*.jar
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IntelliJ
+.idea/
