@@ -1,0 +1,10 @@
+# Eclipse
+.metadata/
+
+# Logs e temporários
+*.log
+*.tmp
+*.bak
+
+# Build
+target/
