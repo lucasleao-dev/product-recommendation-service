@@ -90,17 +90,17 @@ Notificações automáticas de produtos e promoções
 
 Processamento de pedidos e pagamentos
 
-🧪 Testes Implementados
+🧪 Testes:
 
-Nível 1-3: Testes manuais / exploratórios (Postman)
+Testes manuais / exploratórios (Postman)
 
-Nível 4-5: Testes unitários (JUnit, Mockito)
+Testes unitários (JUnit, Mockito)
 
-Nível 6-7: Testes de integração (MockMvc, Testcontainers + H2/PostgreSQL)
+Testes de integração (MockMvc, Testcontainers + H2/PostgreSQL)
 
-Nível 8-9: Testes de API e segurança (MockMvc + JWT)
+Testes de API e segurança (MockMvc + JWT)
 
-Nível 10: Testes de performance (conceitual: JMeter, k6, Gatling)
+Testes de performance (conceitual: JMeter, k6, Gatling)
 
 🚀 Como Rodar o Projeto
 # Clone o repositório
