@@ -1,0 +1,247 @@
+{
+	"info": {
+		"_postman_id": "9f7471b2-863c-4aa4-9ce6-c4ad8c5439bf",
+		"name": "Integration testing orderService",
+		"description": "# ⛓️ Get started here\n\nPostman allows you to test your APIs using simple Javascript code. You can evaluate your response body, headers, cookies, and more using the [ChaiJS BDD](https://www.chaijs.com/api/bdd/) syntax.\n\nThis template guides you through the process of setting up an integration test to ensure that all individual components of an API function together seamlessly.\n\nThe API under test in this collection includes three endpoints for registering and receiving a token, accessing your unique generated name, and unregistering a token:\n\n- POST `/register`\n- POST `/unregister`\n- GET `/my-name`\n    \n\nBy setting up requests in the order of the operation, we can test the flow of data to and from the endpoints and ensure they work together as expected. We also verify that the data persists between requests on the back end.\n\n## 🔖 **How to use this template**\n\n**Step 1:** Check out the requests' documentation to learn more about -\n\n- what each request is meant to do.\n- the tests we've added against each one.\n    \n\n**Step 2:** Run this collection by clicking on \"Run\".\n\n<img src=\"https://content.pstmn.io/84019b0f-69c8-4c5f-98b9-2c90a6f9a0b1/Y29sbGVjdGlvbi1ydW5uZXItYnV0dG9uLmpwZWc=\" alt=\"\" height=\"103\" width=\"266\">\n\n**Step 3:** To customize this template, replace the request URLs with your API endpoints and add or edit the tests if needed.\n\n## ℹ️ Resources\n\n[Scripting in Postman](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/)\n\n[Test script examples](https://learning.postman.com/docs/writing-scripts/script-references/test-examples/)\n\n[Postman Sandbox API reference](https://learning.postman.com/docs/sending-requests/grpc/postman-sandbox-api/#writing-assertions)\n\n[Using the Collection Runner](https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25070673"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1️⃣ Verifica se o status code é 200 ou 201",
+							"pm.test(\"Status code is 200 or 201\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							"",
+							"// 2️⃣ Salva o tempo de resposta em uma variável de ambiente",
+							"let times = pm.environment.get(\"response_times\") || \"[]\";",
+							"times = JSON.parse(times);",
+							"times.push(pm.response.responseTime);",
+							"pm.environment.set(\"response_times\", JSON.stringify(times));",
+							"",
+							"// 3️⃣ Salva o token retornado em uma variável de coleção",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Validate token presence and save it\", function () {",
+							"    pm.expect(jsonData.token).to.be.a('string').that.is.not.empty;",
+							"    pm.collectionVariables.set(\"token\", jsonData.token);",
+							"});",
+							"",
+							"// 4️⃣ Testa se o tempo de resposta está abaixo de 200ms",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"// 5️⃣ Visualização gráfica da resposta com Chart.js",
+							"var template = `",
+							"<canvas id=\"myChart\" height=\"75\"></canvas>",
+							"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\"></script> ",
+							"<script>",
+							"    var ctx = document.getElementById(\"myChart\");",
+							"    var data = pm.getData().response;",
+							"",
+							"    var myChart = new Chart(ctx, {",
+							"        type: \"bar\",",
+							"        data: {",
+							"            labels: [\"Message\", \"Token\", \"Name\", \"Instructions\"],",
+							"            datasets: [{",
+							"                data: [",
+							"                    data.message.length,",
+							"                    data.token.length,",
+							"                    data.name.length,",
+							"                    data.instructions.length",
+							"                ],",
+							"                backgroundColor: \"rgba(75,192,192,0.4)\",",
+							"                borderColor: \"rgba(75,192,192,1)\",",
+							"                borderWidth: 1",
+							"            }]",
+							"        },",
+							"        options: {",
+							"            legend: { display: false },",
+							"            title: { display: true, text: 'Response Lengths' },",
+							"            scales: {",
+							"                xAxes: [{ display: true, scaleLabel: { display: true, labelString: 'Fields' } }],",
+							"                yAxes: [{ display: true, scaleLabel: { display: true, labelString: 'Length' } }]",
+							"            }",
+							"        }",
+							"    });",
+							"</script>`;",
+							"",
+							"// Passa os dados da resposta para o visualizer",
+							"function constructVisualizerPayload() {",
+							"    return {response: pm.response.json()};",
+							"}",
+							"pm.visualizer.set(template, constructVisualizerPayload());",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"lucas\",\r\n  \"email\": \"lucas@example.com\",\r\n  \"password\": \"123456\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				},
+				"description": "This returns a `token` that you can use to retrieve information later on.\n\nWe have included a test to confirm if a token is returned. We have also added test scripts to copy the token to the `token` collection variable. This makes it easy for us to reuse this token in other requests in the collection."
+			},
+			"response": []
+		},
+		{
+			"name": "Get name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"A name is returned\", () => {",
+							"    pm.expect(pm.response.json()).to.have.property('name');",
+							"    pm.expect(pm.response.json().name).to.be.a('string');",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "3029ec4f30a3cc4e0dca89f86ca1f3993048ea9ca529611eb11ebbd87980997b\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/my-name?token={{token}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"my-name"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				},
+				"description": "This request uses the saved `token` collection variable to access a secret 'name' stored against that token.\n\nIn this request, we used the `token` collection variable as a query param to fetch the name generated for that token. We have added a test to check that a name is correctly returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Unregister",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Returns 200 OK status\", () => {",
+							"    pm.response.to.have.status(200)",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"{{token}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/unregister",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"unregister"
+					]
+				},
+				"description": "This request un-registers a token by using the token collection variable in the POST body.\n\nWe also added a test to ensure the response has a 200 OK status code."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://ff7f396c-8508-403e-9027-f091862711be.mock.pstmn.io"
+		}
+	]
+}
