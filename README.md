@@ -6,121 +6,118 @@ Sistema de Recomendação de Produtos utilizando Java 21 e Spring Boot 3, com fo
 
 <img width="1536" height="1024" alt="Diagrama" src="https://github.com/user-attachments/assets/3eaa708b-371d-4b4f-8b2f-bc2d763c1c8e" />
 
-💻 Tecnologias e Frameworks
+ **Gateway** → Entrada única das APIs
+- **user-service** → Gestão de usuários e autenticação
+- **recommendation-service** → Sistema de recomendação de produtos
+- **order-service** → Gestão de pedidos
+- **payment-service** → Processamento de pagamentos (em construção)
+- **notification-service** → Notificações para usuários (em construção)
+---
 
-Backend & Frameworks
+## 💻 Tecnologias e Frameworks
 
-Java 21
+**Backend & Frameworks:**
 
-Spring Boot 3
+- Java 21  
+- Spring Boot 3  
+- Spring Web → REST APIs  
+- Spring Data JPA → CRUD via repositórios  
+- Spring Security + JWT → Autenticação e roles no user-service  
 
-Spring Web → REST APIs
+**Banco de Dados:**
 
-Spring Data JPA → CRUD via repositórios
+- H2 Database → usado em memória nos testes  
+- PostgreSQL → produção, cada serviço com seu banco próprio  
 
-Spring Security + JWT → Autenticação e roles no user-service
+**Testes:**
 
-Banco de Dados
+- JUnit 5 → testes unitários  
+- Mockito → mock de dependências  
+- Testcontainers → PostgreSQL real em container para testes de integração  
 
-H2 Database → usado em memória nos testes
+**Boas Práticas:**
 
-PostgreSQL → produção, cada serviço com seu banco próprio
+- SOLID & Clean Code  
+- Arquitetura em camadas (Controller, Service, Repository, DTO, Entity)  
+- Separação clara de responsabilidades  
+- DTOs para comunicação entre camadas  
 
-Testes
+**DevOps & Observabilidade:**
 
-JUnit 5 → testes unitários
+- Spring DevTools → reload automático no desenvolvimento  
+- Logs configurados (Hibernate SQL + parâmetros)  
+- Docker → empacotamento de microsserviços  
+- CI/CD GitHub Actions → pipeline em construção  
 
-Mockito → mock de dependências
+---
 
-Testcontainers → PostgreSQL real em container para testes de integração
+## 🏗 Arquitetura de Microsserviços
 
-Boas Práticas
+- API Gateway com Spring Cloud Gateway  
+- Serviços independentes com banco próprio  
+- Comunicação via REST APIs  
+- Configuração preparada para expansão com novos serviços  
 
-SOLID & Clean Code
+---
 
-Arquitetura em camadas (Controller, Service, Repository, DTO, Entity)
+## 📂 Estrutura do Projeto
 
-Separação clara de responsabilidades
+- **review-service** → Avaliações de produtos  
+- **user-service** → Gestão de usuários e autenticação  
+- **notification-service** → Notificações para usuários  
+- **order-service** → Gestão de pedidos  
+- **payment-service** → Processamento de pagamentos  
+- **gateway-service** → Entrada para APIs  
 
-DTOs para comunicação entre camadas
+---
 
-DevOps & Observabilidade
+## ✨ Funcionalidades
 
-Spring DevTools → reload automático no desenvolvimento
+- Cadastro e autenticação de usuários  
+- Avaliações e comentários de produtos  
+- Recomendações de produtos baseadas em histórico e avaliações  
+- Notificações automáticas de produtos e promoções  
+- Processamento de pedidos e pagamentos  
 
-Logs configurados (Hibernate SQL + parâmetros)
+---
 
-Docker → empacotamento de microsserviços
+## 🧪 Testes
 
-CI/CD GitHub Actions → pipeline em construção
+ Testes manuais / exploratórios (Postman)  
+ Testes unitários (JUnit, Mockito)  
+ Testes de integração (MockMvc, Testcontainers + H2/PostgreSQL)  
+ Testes de API e segurança (MockMvc + JWT)  
+ Testes de performance (conceitual: JMeter, k6, Gatling)  
 
-🏗 Arquitetura de Microsserviços
+---
 
-API Gateway com Spring Cloud Gateway
+## 🚀 Como Rodar o Projeto
 
-Serviços independentes com banco próprio
+1. Clonar o repositório:
 
-Comunicação via REST APIs
-
-Configuração preparada para expansão com novos serviços
-
-📂 Estrutura do Projeto
-
-review-service → Avaliações de produtos
-
-user-service → Gestão de usuários e autenticação
-
-notification-service → Notificações para usuários
-
-order-service → Gestão de pedidos
-
-payment-service → Processamento de pagamentos
-
-gateway-service → Entrada para APIs
-
-✨ Funcionalidades
-
-Cadastro e autenticação de usuários
-
-Avaliações e comentários de produtos
-
-Recomendações de produtos baseadas em histórico e avaliações
-
-Notificações automáticas de produtos e promoções
-
-Processamento de pedidos e pagamentos
-
-🧪 Testes:
-
-Testes manuais / exploratórios (Postman)
-
-Testes unitários (JUnit, Mockito)
-
-Testes de integração (MockMvc, Testcontainers + H2/PostgreSQL)
-
-Testes de API e segurança (MockMvc + JWT)
-
-Testes de performance (conceitual: JMeter, k6, Gatling)
-
-🚀 Como Rodar o Projeto
-# Clone o repositório
+```bash
 git clone git@github.com:lucasleao-dev/product-recommendation-service.git
+cd product-recommendation-service
+Rodar serviços individualmente via IDE (Spring Boot) ou terminal:
 
-# Entre no diretório do serviço desejado
-cd review-service
 
-# Rode a aplicação
-mvn spring-boot:run
+cd order-service
+./mvnw spring-boot:run
+Configurar variáveis de ambiente (ex: DATABASE_URL, JWT_SECRET) se necessário.
 
-# Execute os testes
-mvn test
+Testar endpoints via Postman ou curl.
 
-🔜 Próximos Passos
+📦 Próximos Serviços
+payment-service → criação de endpoints para pagamento
 
-Implementar recomendações personalizadas com Machine Learning
+notification-service → envio de notificações via email e push
 
-Empacotar microsserviços com Docker
+🔗 Links úteis
+Documentação do Spring Boot
 
-Criar documentação de API com Swagger/OpenAPI
+Spring Security + JWT
 
-Configurar CI/CD completo com GitHub Actions
+Testcontainers
+
+⚡ Autor
+Lucas Souza Leão – Desenvolvedor Fullstack e Analista de Sistemas
