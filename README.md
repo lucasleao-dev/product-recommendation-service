@@ -3,8 +3,8 @@
 Sistema de Recomendação de Produtos utilizando Java 21 e Spring Boot 3, com foco em microsserviços, testes automatizados e boas práticas de arquitetura.
 
 📊 Diagrama do Sistema
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/1c678f81-fd77-48a1-92f3-dc8e047e73e6" />
 
-<img width="1536" height="1024" alt="Diagrama" src="https://github.com/user-attachments/assets/3eaa708b-371d-4b4f-8b2f-bc2d763c1c8e" />
 
 💻 Tecnologias e Frameworks
 
